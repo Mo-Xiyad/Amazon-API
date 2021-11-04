@@ -4,7 +4,8 @@ const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllUsers = async (req, res, next) => {
   try {
-    // const data = await
+    const data = await User.findAll();
+    res.send(data);
   } catch (error) {
     console.log(error);
     next(error);
@@ -12,6 +13,8 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const createUser = async (req, res, next) => {
+  const data = await User.create(req.body);
+  res.send(data);
   try {
   } catch (error) {
     console.log(error);
