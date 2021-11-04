@@ -13,3 +13,6 @@ const ProductCategory = sequelize.define(
   },
   { timestamps: false }
 );
+
+ProductCategory.sync({ force: true }); // This creates the table, dropping it first if it already existed
+export default ProductCategory;

@@ -20,4 +20,5 @@ const Category = sequelize.define(
   }
 );
 
+Category.sync({ force: true }); // This creates the table, dropping it first if it already existed
 export default Category;
