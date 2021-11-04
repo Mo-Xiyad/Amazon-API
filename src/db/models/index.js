@@ -4,13 +4,14 @@ import User from "./Users.js";
 import Category from "./Categorys.js";
 import ProductCategory from "./ProductCategory.js";
 
-User.hasMany(Review, { onDelete: "CASCADE" });
-Review.belongsTo(User, { onDelete: "CASCADE" });
-
 Product.hasMany(Review, { onDelete: "CASCADE" });
 Review.belongsTo(Product, { onDelete: "CASCADE" });
 
+User.hasMany(Review, { onDelete: "CASCADE" });
+Review.belongsTo(User, { onDelete: "CASCADE" });
+
 // manyToMany relation
+
 Product.belongsToMany(Category, {
   through: { model: ProductCategory, unique: false },
 });

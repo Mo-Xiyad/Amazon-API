@@ -14,11 +14,15 @@ const Category = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isProduct: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
   }
 );
 
-Category.sync({ force: true }); // This creates the table, dropping it first if it already existed
+//Category.sync({ force: true }); // This creates the table, dropping it first if it already existed
 export default Category;

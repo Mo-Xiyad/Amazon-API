@@ -18,5 +18,5 @@ const Review = sequelize.define("review", {
   },
 });
 
-Review.sync({ force: true }); // This creates the table, dropping it first if it already existed
+//Review.sync({ force: true }); // This creates the table, dropping it first if it already existed
 export default Review;

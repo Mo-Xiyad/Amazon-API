@@ -2,7 +2,7 @@ import sequelize from "../index.js";
 import s from "sequelize";
 const { DataTypes } = s;
 
-const Product = sequelize.define("Product", {
+const Product = sequelize.define("product", {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
@@ -30,6 +30,6 @@ const Product = sequelize.define("Product", {
   },
 });
 
-Product.sync({ force: true }); // This creates the table, dropping it first if it already existed
+//Product.sync({ force: true }); // This creates the table, dropping it first if it already existed
 
 export default Product;

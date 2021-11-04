@@ -30,6 +30,6 @@ const User = sequelize.define("user", {
   },
 });
 
-User.sync({ force: true }); // This creates the table, dropping it first if it already existed
+//User.sync({ force: true }); // This creates the table, dropping it first if it already existed
 
 export default User;
