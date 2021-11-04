@@ -24,6 +24,9 @@ const createUser = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
+    const data = await User.findOne({ where: { id: req.params.id } });
+    console.log(data);
+    res.send(data);
   } catch (error) {
     console.log(error);
     next(error);
@@ -32,6 +35,16 @@ const getUserById = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
+    const data = await User.update(
+      { ...req.body },
+      {
+        where: {
+          id: req.params.id,
+        },
+        returning: true,
+      }
+    );
+    res.send(data[1][0]);
   } catch (error) {
     console.log(error);
     next(error);
@@ -40,6 +53,8 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
   try {
+    const data = await User.destroy({ where: { id: req.params.id } });
+    res.send({ data });
   } catch (error) {
     console.log(error);
     next(error);

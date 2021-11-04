@@ -4,6 +4,8 @@ const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllCategories = async (req, res, next) => {
   try {
+    const categories = await Category.findAll({ include: [Product] });
+    res.send(categories);
   } catch (error) {
     console.log(error);
     next(error);
@@ -12,6 +14,8 @@ const getAllCategories = async (req, res, next) => {
 
 const createCategories = async (req, res, next) => {
   try {
+    const category = await Category.create(req.body);
+    res.send(category);
   } catch (error) {
     console.log(error);
     next(error);

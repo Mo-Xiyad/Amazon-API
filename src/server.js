@@ -3,6 +3,7 @@ import listEndpoints from "express-list-endpoints";
 import productRoute from "./services/products/index.js";
 import reviewRoute from "./services/reviews/index.js";
 import usersRoute from "./services/users/index.js";
+import categoriesRoute from "./services/categories/index.js";
 
 import { testConnetion, connetDB } from "./db/index.js";
 
@@ -15,6 +16,7 @@ server.use(express.json());
 server.use("/products", productRoute);
 server.use("/reviews", reviewRoute);
 server.use("/users", usersRoute);
+server.use("/categories", categoriesRoute);
 
 console.table(listEndpoints(server));
 

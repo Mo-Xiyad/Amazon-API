@@ -4,8 +4,11 @@ const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.findAll({ include: [Review, Category] });
-    // console.log(products);
+    const products = await Product.findAll({
+      include: [Review, { model: Category, through: { attributes: [] } }],
+      order: [["createdAt", "DESC"]],
+    });
+
     res.send(products);
   } catch (error) {
     console.log(error);
@@ -15,7 +18,22 @@ const getAllProducts = async (req, res, next) => {
 
 const createproduct = async (req, res, next) => {
   try {
-    const data = await Product.create(req.body);
+    const { categories, ...rest } = req.body;
+
+    const data = await Product.create(rest);
+
+    const valuesTo = categories.map((category) => ({
+      categoryId: category,
+      productId: data.id,
+    }));
+
+    await ProductCategory.bulkCreate(valuesTo);
+
+    // await ProductCategory.create({
+    //   categoryId: req.body.categoryId,
+    //   productId: data.id,
+    // });
+
     res.send(data);
   } catch (error) {
     console.log(error);
@@ -28,7 +46,7 @@ const getProductById = async (req, res, next) => {
     // const data = await Product.findByPk(req.params.id);
     const data = await Product.findOne({
       where: { id: req.params.id },
-      include: Review,
+      include: [Review, { model: Category, through: { attributes: [] } }],
     });
     res.send(data);
   } catch (error) {
@@ -49,6 +67,23 @@ const updateProduct = async (req, res, next) => {
         returning: true,
       }
     );
+
+    // const { categories, ...rest } = req.body;
+
+    // const data = await Product.update(rest);
+
+    // const valuesTo = categories.map((category) => ({
+    //   categoryId: category,
+    //   productId: req.params.id,
+    // }));
+
+    // await ProductCategory.bulkCreate(valuesTo).then(() => {
+    //   return ProductCategory.update(
+    //     { isProduct: false },
+    //     { where: { categoryId: id } }
+    //   );
+    // });
+
     res.send(updatedProduct[1][0]);
   } catch (error) {
     console.log(error);
