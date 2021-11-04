@@ -1,9 +1,10 @@
-// import models from "../../db/models/index.js";
+import models from "../../db/models/index.js";
 
-// const { Product, Review } = models;
+const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllUsers = async (req, res, next) => {
   try {
+    // const data = await
   } catch (error) {
     console.log(error);
     next(error);

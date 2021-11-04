@@ -1,10 +1,11 @@
 import models from "../../db/models/index.js";
 
-const { Product, Review } = models;
+const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.findAll({ include: Review });
+    const products = await Product.findAll({ include: [Review, Category] });
+    // console.log(products);
     res.send(products);
   } catch (error) {
     console.log(error);

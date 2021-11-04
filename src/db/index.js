@@ -19,7 +19,7 @@ export const testConnetion = async () => {
 
 export const connetDB = async () => {
   try {
-    await sequelize.sync({ force: true, logging: false });
+    await sequelize.sync({ force: false, logging: false });
     console.log("✅ All models were synchronized successfully.");
   } catch (error) {
     console.log(error);

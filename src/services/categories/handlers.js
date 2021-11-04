@@ -1,6 +1,6 @@
-// import models from "../../db/models/index.js";
+import models from "../../db/models/index.js";
 
-// const { Product, Review } = models;
+const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllCategories = async (req, res, next) => {
   try {
