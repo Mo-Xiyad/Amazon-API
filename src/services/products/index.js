@@ -1,17 +1,14 @@
 import express from "express";
-import productHandler from "./handlers.js";
+import handler from "./handlers.js";
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(productHandler.getAllProducts)
-  .post(productHandler.createproduct);
+router.route("/").get(handler.getAllProducts).post(handler.createproduct);
 
 router
   .route("/:id")
-  .get(productHandler.getProductById)
-  .put(productHandler.updateProduct)
-  .delete(productHandler.deleteProduct);
+  .get(handler.getProductById)
+  .put(handler.updateProduct)
+  .delete(handler.deleteProduct);
 
 export default router;
