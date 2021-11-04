@@ -28,10 +28,6 @@ const Product = sequelize.define("Product", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  category: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
 });
 
 Product.sync({ force: true }); // This creates the table, dropping it first if it already existed
