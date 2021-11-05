@@ -29,6 +29,7 @@ const getCategoriesById = async (req, res, next) => {
         {
           model: Product,
           as: "products",
+          // attributes: [],
           // attributes: [
           //   "name",
           //   "description",

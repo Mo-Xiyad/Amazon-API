@@ -5,7 +5,7 @@ const { Product, Review, User, Category, ProductCategory } = models;
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Review, { model: Category, through: { attributes: ["id"] } }],
+      include: [Review, { model: Category, through: { attributes: [] } }],
       order: [["createdAt", "DESC"]],
     });
 
@@ -29,11 +29,6 @@ const createproduct = async (req, res, next) => {
 
     await ProductCategory.bulkCreate(valuesTo);
 
-    // await ProductCategory.create({
-    //   categoryId: req.body.categoryId,
-    //   productId: data.id,
-    // });
-
     res.send(data);
   } catch (error) {
     console.log(error);
@@ -54,26 +49,10 @@ const getProductById = async (req, res, next) => {
     next(error);
   }
 };
-//
-
-//{{localUrl}}/products/removeCategory
-const deleteProductCategory = async (req, res, next) => {
-  try {
-    const { categories, productId } = req.body;
-
-    await ProductCategory.destroy({
-      where: { productId: productId, categoryId: categories },
-    });
-
-    res.send({ ProductCategory });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const updateProduct = async (req, res, next) => {
   try {
-    delete req.body.id; //this is deleting the field that should not be updated by the user
+    // delete req.body.id; //this is deleting the field that should not be updated by the user
     const updatedProduct = await Product.update(
       { ...req.body },
       {
@@ -83,22 +62,6 @@ const updateProduct = async (req, res, next) => {
         returning: true,
       }
     );
-
-    // const { categories, ...rest } = req.body;
-
-    // const data = await Product.update(rest);
-
-    // const valuesTo = categories.map((category) => ({
-    //   categoryId: category,
-    //   productId: req.params.id,
-    // }));
-
-    // await ProductCategory.bulkCreate(valuesTo).then(() => {
-    //   return ProductCategory.update(
-    //     { isProduct: false },
-    //     { where: { categoryId: id } }
-    //   );
-    // });
 
     res.send(updatedProduct[1][0]);
   } catch (error) {
@@ -121,6 +84,41 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
+// ---------PRODUCT CATEGORIES ENDPOINTS---------
+
+//{{localUrl}}/products/removeCategory
+const deleteProductCategory = async (req, res, next) => {
+  try {
+    const { categories, productId } = req.body;
+
+    await ProductCategory.destroy({
+      where: { productId: productId, categoryId: categories },
+    });
+
+    res.send({ ProductCategory });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addCetegoryToProducts = async (req, res, next) => {
+  const { categories, productId } = req.body;
+
+  const valuesTo = categories.map((category) => ({
+    categoryId: category,
+    productId: productId,
+  }));
+
+  await ProductCategory.bulkCreate(valuesTo);
+
+  const data = await Product.findOne({
+    where: { id: req.body.productId },
+    include: [Review, { model: Category, through: { attributes: [] } }],
+  });
+
+  res.send(data);
+};
+
 const productHandler = {
   getAllProducts,
   createproduct,
@@ -128,6 +126,7 @@ const productHandler = {
   updateProduct,
   deleteProduct,
   deleteProductCategory,
+  addCetegoryToProducts,
 };
 
 export default productHandler;
