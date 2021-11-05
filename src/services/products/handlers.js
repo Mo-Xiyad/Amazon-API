@@ -5,7 +5,7 @@ const { Product, Review, User, Category, ProductCategory } = models;
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Review, { model: Category, through: { attributes: [] } }],
+      include: [Review, { model: Category, through: { attributes: ["id"] } }],
       order: [["createdAt", "DESC"]],
     });
 
@@ -52,6 +52,22 @@ const getProductById = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
+  }
+};
+//
+
+//{{localUrl}}/products/removeCategory
+const deleteProductCategory = async (req, res, next) => {
+  try {
+    const { categories, productId } = req.body;
+
+    await ProductCategory.destroy({
+      where: { productId: productId, categoryId: categories },
+    });
+
+    res.send({ ProductCategory });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -111,6 +127,7 @@ const productHandler = {
   getProductById,
   updateProduct,
   deleteProduct,
+  deleteProductCategory,
 };
 
 export default productHandler;

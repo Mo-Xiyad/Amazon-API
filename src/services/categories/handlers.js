@@ -50,7 +50,19 @@ const getCategoriesById = async (req, res, next) => {
 
 const updateCategories = async (req, res, next) => {
   try {
-    const category = await Category.update(req.params.id, {});
+    const currentCetegory = await Category.findByPk(req.params.id);
+    const newCategory = await Category.findOne({
+      where: { id: req.params.id },
+      returning: true,
+    }).then((category) => {
+      if (!category) {
+        throw new Error("category not found");
+      }
+      const { name, isProduct } = req.body;
+      category
+        .update({ name, isProduct, ...currentCetegory })
+        .then(res.send(category));
+    });
   } catch (error) {
     console.log(error);
     next(error);
@@ -59,6 +71,8 @@ const updateCategories = async (req, res, next) => {
 
 const deleteCategories = async (req, res, next) => {
   try {
+    const category = await Category.destroy({ where: { id: req.params.id } });
+    res.send({ category });
   } catch (error) {
     console.log(error);
     next(error);
