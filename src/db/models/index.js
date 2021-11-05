@@ -1,8 +1,8 @@
-import Product from "./Products.js";
-import Review from "./Reviews.js";
-import User from "./Users.js";
-import Category from "./Categorys.js";
-import ProductCategory from "./ProductCategory.js";
+import Product from "./prodc.js";
+import Review from "./rev.js";
+import User from "./use.js";
+import Category from "./cat.js";
+import ProductCategory from "./procatgry.js";
 
 Product.hasMany(Review, { onDelete: "CASCADE" });
 Review.belongsTo(Product, { onDelete: "CASCADE" });
