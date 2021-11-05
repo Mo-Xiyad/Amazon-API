@@ -24,6 +24,24 @@ const createCategories = async (req, res, next) => {
 
 const getCategoriesById = async (req, res, next) => {
   try {
+    const category = await Category.findByPk(req.params.id, {
+      include: [
+        {
+          model: Product,
+          as: "products",
+          // attributes: [
+          //   "name",
+          //   "description",
+          //   "brand",
+          //   "price",
+          //   "imageUrl",
+          // ],
+          through: { attributes: [] },
+        },
+      ],
+    });
+    console.log(category);
+    res.send(category);
   } catch (error) {
     console.log(error);
     next(error);
@@ -32,6 +50,7 @@ const getCategoriesById = async (req, res, next) => {
 
 const updateCategories = async (req, res, next) => {
   try {
+    const category = await Category.update(req.params.id, {});
   } catch (error) {
     console.log(error);
     next(error);
