@@ -12,12 +12,11 @@ const getUserShoppingCart = async (req, res, next) => {
       include: { model: Product, include: Category },
       attributes: [
         "productId",
-        "id",
         // [sequelize.fn("COUNT", sequelize.col("cart.productId")), "qty"],
         // [sequelize.fn("SUM", sequelize.col("product.price")), "unitary_price"],
       ],
 
-      // group: ["cart.id", "cart.productId", "product.id", "product.category.id"],
+      // group: ["productId", "product.id", "product.category.id"],
     });
 
     const totalQty = await Cart.count({
