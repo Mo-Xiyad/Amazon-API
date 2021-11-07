@@ -6,7 +6,7 @@ const { Product, Review, User, Category, ProductCategory } = models;
 
 const getAllProducts = async (req, res, next) => {
   try {
-    // **********************  (Opt 1-)  **********************
+    // **********************  (Opt 1-)  ********************** getting all the products from database
     /* 
 
     const products = await Product.findAll({
@@ -52,11 +52,11 @@ const getAllProducts = async (req, res, next) => {
     res.send({
       data: products.rows,
       total: products.count,
-      pages: Math.ceil(articles.count / req.query.size),
+      pages: Math.ceil(products.count / req.query.size),
     }); 
 
     */
-    // **********************  (Opt 3-)  ********************** by a specific field
+    // **********************  (Opt 3-)  ********************** by a specific field (NAME ONLY AS QUERY)
     /* 
     const products = await Product.findAndCountAll({
       include: [Review, { model: Category, through: { attributes: [] } }],
@@ -78,14 +78,15 @@ const getAllProducts = async (req, res, next) => {
     }); 
     */
 
-    // **********************  (Opt 4-)  ********************** search by multiple fields
-    const products = await Product.findAndCountAll({
-      include: [Review, { model: Category, through: { attributes: [] } }],
-      where: {
-        ...(req.query.search && {
-          [Op.or]: [
-            { name: { [Op.iLike]: `%${req.query.search}%` } },
-            { brand: { [Op.iLike]: `%${req.query.search}%` } },
+    // **********************  (Opt 4-)  ********************** search by multiple fields (NAME & BRAND)
+    /*   
+   const products = await Product.findAndCountAll({
+     include: [Review, { model: Category, through: { attributes: [] } }],
+     where: {
+       ...(req.query.search && {
+         [Op.or]: [
+           { name: { [Op.iLike]: `%${req.query.search}%` } },
+           { brand: { [Op.iLike]: `%${req.query.search}%` } },
           ],
         }),
       },
@@ -96,6 +97,44 @@ const getAllProducts = async (req, res, next) => {
         products: products.rows,
         total: products.count,
         // pages: Math.ceil(products.count / 2),
+      });
+    }); 
+    */
+
+    // **********************  (Opt 4-)  ********************** search by multiple fields And Categories
+    // {{localUrl}}/products?category=apple  ENDPOINT
+    const products = await Product.findAndCountAll({
+      include: [
+        Review, // includind all the rewives writen for the product
+        {
+          model: Category, // include all the associated categories for the product
+          where: {
+            // this fillter is only returning the searched category other categories will not be filtered
+            ...(req.query.category && {
+              name: {
+                [Op.iLike]: `%${req.query.category}%`,
+              },
+            }),
+          },
+          through: { attributes: [] },
+        },
+      ],
+      where: {
+        ...(req.query.search && {
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${req.query.search}%` } },
+            { brand: { [Op.iLike]: `%${req.query.search}%` } },
+          ],
+        }),
+      },
+
+      // limit: req.query.size, // 2 product per page
+      // offset: parseInt(req.query.size * req.query.page),
+    }).then((products) => {
+      res.send({
+        products: products.rows,
+        total: products.count,
+        // pages: Math.ceil(products.count / req.query.size),
       });
     });
   } catch (error) {
