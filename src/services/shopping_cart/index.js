@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
   .route("/:userId")
-  .get(handler.userShoppingCart)
+  .get(handler.getUserShoppingCart)
   .post(handler.addProductsTotheCart);
 
 // router.route("/").get(handler.getAllCategories).post(handler.createCategories);

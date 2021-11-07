@@ -4,7 +4,7 @@ import productRoute from "./services/products/index.js";
 import reviewRoute from "./services/reviews/index.js";
 import usersRoute from "./services/users/index.js";
 import categoriesRoute from "./services/categories/index.js";
-import cartsRoute from "./services/carts/index.js";
+import cartsRoute from "./services/shopping_cart/index.js";
 
 import { testConnetion, connetDB } from "./db/index.js";
 
