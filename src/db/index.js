@@ -11,16 +11,17 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  }),
+        rejectUnauthorized: false
+      }
+    }
+  })
 });
 
 export const testConnetion = async () => {
   try {
     await sequelize.authenticate({ logging: false });
     console.log("✅ Connection established with database");
+    console.log(process.env.PGHOST);
   } catch (error) {
     console.log(error);
   }
