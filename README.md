@@ -35,5 +35,6 @@ All of the CRUD operations are available in this API
 After you have created the database and the tables you can run the following command to start the server
 
 ```bash
+npm install
 npm run dev
 ```
