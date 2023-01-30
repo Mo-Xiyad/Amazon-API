@@ -14,13 +14,13 @@ All of the CRUD operations are available in this API
 
 ### Environment Variables
 
-`NODE_ENV` = "development";
-`PGHOST` = "localhost"; // in case you are using a local database server most likely you will be using this
-`PGUSER` = "mohamedziyad"; // your username in most likely case (machine username)
-`PGDATABASE` = "postgres";
-PGPASSWORD` = ""; // your master password which you have created when you installed postgres
-`PGPORT` = 5432; // default port for postgres
-`PORT` = 3000; // default port for nodejs
+`NODE_ENV` = `"development"`;
+`PGHOST` = `"localhost"; // in case you are using a local database server most likely you will be using this`
+`PGUSER` = `"mohamedziyad"; // your username in most likely case (machine username)`
+`PGDATABASE` = `"postgres";`
+`PGPASSWORD` = `""; // your master password which you have created when you installed postgres`
+`PGPORT` = `5432; // default port for postgres`
+`PORT` = `3000; // default port for nodejs`
 > Im also using cloudinary to store the images so be sure to create an account and get your cloud name, api key and api secret
 `CLOUDINARY_URL`
 
